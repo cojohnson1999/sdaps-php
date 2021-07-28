@@ -2,23 +2,23 @@
 
 /**
  * Created by Jansen Felipe.  
- * Can be found at https://github.com/jansenfelipe/sdaps-php
+ * Original branch can be found at https://github.com/jansenfelipe/sdaps-php
  * 
- * Edited and repurposed by Cody J, @cojohnson1999.
+ * Edited and repurposed by Cody J, @cojohnson1999
  * Previous versions can be found on the original branch above.  
- * This class works in SDAPS 1.9.9, SDAPS command line prompts were changed,
- * as their order with (ex: $pathProject . ' setup ') has been deprecated.
+ * This class works in SDAPS 1.9.9. 
+ * SDAPS command line prompts were changed, as their order with (ex: $pathProject . ' setup ') has been deprecated.
  * 
- * Edited: createProject,
- *         add,
- *         recognize,
- *         csvExport,
+ * Edited: createProject
+ *         add
+ *         recognize
+ *         csvExport
  *         stampIDs
  * 
- * Added: addConvert,
- *        addConvertMult,
- *        gui (may not work when integrated in module, needs checking),
- *        reset,
+ * Added: addConvert
+ *        addConvertMult
+ *        gui
+ *        reset
  *        deleteFile
  */
 
@@ -37,19 +37,6 @@ class SdapsPHP {
      */
     public static function createProject($pathProject, $pathTexFile) {
         self::sdapsExists();
-
-        /**
-         * Note: Deletion is not the correct call here, deleting older
-         *       projects would jeopardize data.  So instead, we increment the
-         *       name of the project if it matches a previously-created one.
-         */
-
-        /* $i = 1;
-        $changedPath = $pathProject;
-        while(file_exists($changedPath)) {
-            $changedPath = (string)$pathProject.$i;
-            $i++;
-        } */
 
         //Project already exists, so we don't create it again
         if(file_exists($pathProject)) {
@@ -112,7 +99,7 @@ class SdapsPHP {
         self::sdapsExists();
 
         //If we have scanned data already, remove it and reset the project before adding
-        //Without this, we get duplicate pages and duplicate rows on export csv
+        //Without this, we get duplicate pages and duplicate rows on scanned tif and exported csv
         if(count(glob($pathProject.DIRECTORY_SEPARATOR.'*.tif')) > 0) {
             self::reset($pathProject);
         }
@@ -136,7 +123,7 @@ class SdapsPHP {
         self::sdapsExists();
 
         //If we have scanned data already, remove it and reset the project before adding
-        //Without this, we get duplicate pages and duplicate rows on export csv
+        //Without this, we get duplicate pages and duplicate rows on scanned tif and exported csv
         if(count(glob($pathProject.DIRECTORY_SEPARATOR.'*.tif')) > 0) {
             self::reset($pathProject);
         }
@@ -160,12 +147,12 @@ class SdapsPHP {
         self::sdapsExists();
 
         //If we have scanned data already, remove it and reset the project before adding
-        //Without this, we get duplicate pages and duplicate rows on export csv
+        //Without this, we get duplicate pages and duplicate rows on scanned tif and exported csv
         if(count(glob($pathProject.DIRECTORY_SEPARATOR.'*.tif')) > 0) {
             self::reset($pathProject);
         }
 
-        //Add each uploaded file dynmaically as in the array parameter
+        //Add each uploaded file dynamically as in the array parameter
         $command = 'sdaps add --convert ' . $pathProject;
         foreach($filePaths as $key => $filePath) {
             $command = $command . ' ' . $filePaths[$key];
